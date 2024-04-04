@@ -19,6 +19,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
+import { Login } from '@/actions/login';
 
 export default function LoginForm() {
 
@@ -31,7 +32,7 @@ export default function LoginForm() {
   })
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    Login(values)
   }
 
   return (
@@ -69,7 +70,7 @@ export default function LoginForm() {
 
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
