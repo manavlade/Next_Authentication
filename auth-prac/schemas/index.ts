@@ -11,6 +11,7 @@ export const LoginSchema = z.object({
     })
 });
 
+
 export const RegisterSchema = z.object({
     email: z.string({
         invalid_type_error: "Must contain @"
