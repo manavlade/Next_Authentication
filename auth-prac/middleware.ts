@@ -18,6 +18,8 @@ export default auth((req) => {
     const isAPIAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isLoginRoute = nextUrl.pathname === "/auth/login"
+    const isRegisterRoute = nextUrl.pathname === "/auth/register"
 
     if (isAPIAuthRoute) {
         return null;
@@ -25,18 +27,16 @@ export default auth((req) => {
 
     if (isAuthRoute) {
         if (isLoggedIn) {
-            return Response.redirect( new URL(DEFAULT_LOGIN_REDIRECT, nextUrl) )
+            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
         return null
     }
 
+    if (!isLoggedIn && !isPublicRoute && !isLoginRoute && !isRegisterRoute) {
+        return Response.redirect(new URL("/auth/login", nextUrl))
+    }
 
-    // Ye vale part mei error hai need to do some changes
-    // if(!isLoggedIn && !isPublicRoute){
-    //     return Response.redirect(new URL("/auth/login", nextUrl))
-    // }
-
-    // return null;
+    return null;
 })
 
 // Optionally, don't invoke Middleware on some paths
